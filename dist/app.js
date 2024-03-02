@@ -5172,11 +5172,12 @@ var $author$project$Game$Four = 3;
 var $author$project$Game$Nine = 8;
 var $author$project$Game$One = 0;
 var $author$project$Game$Seven = 6;
+var $author$project$Game$Six = 5;
 var $author$project$Game$Ten = 9;
 var $author$project$Game$Three = 2;
 var $author$project$Game$Twelve = 11;
 var $author$project$Game$Two = 1;
-var $author$project$Game$knownFields = {aa: 10, ab: 11, ac: 6, ad: 0, ae: 4, ai: 1, aj: 2, ak: 7, al: 8, an: 8, ao: 9, ar: 3};
+var $author$project$Game$knownFields = {aa: 6, ab: 10, ac: 2, ad: 0, ae: 5, ai: 8, aj: 1, ak: 4, al: 9, an: 7, ao: 3, ar: 11};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = F3(
@@ -6009,7 +6010,6 @@ var $author$project$Game$shiftUntilStartsWith = F2(
 	function (target, list) {
 		return A2($elm$core$List$member, target, list) ? A2($author$project$Game$shiftUntilStartsWithHelper, target, list) : list;
 	});
-var $author$project$Game$Six = 5;
 var $author$project$Game$solvedFields = {aa: 7, ab: 10, ac: 4, ad: 0, ae: 3, ai: 8, aj: 1, ak: 6, al: 5, an: 9, ao: 2, ar: 11};
 var $author$project$Game$isSolved = function (_v0) {
 	var fields_ = _v0;
