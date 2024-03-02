@@ -1,3 +1,20 @@
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+}
+
+.game {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .numbers {
     display: flex;
     gap: 1rem;
@@ -8,7 +25,7 @@
     border-radius: 6px;
     width: 40px;
     height: 40px;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -19,6 +36,15 @@
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.controls button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 120px;
+    font-size: 16px;
+    font-weight: bold;
+    touch-action: manipulation;
 }
 
 .status {

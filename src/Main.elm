@@ -1,11 +1,13 @@
 module Main exposing (main)
 
 import Browser
+import Browser.Events
 import Browser.Navigation as Navigation
 import Game
 import Html exposing (Html)
 import Html.Attributes as Attributes
 import Html.Events as Events
+import Json.Decode as Decode exposing (Decoder)
 import Random
 import Url exposing (Url)
 
@@ -16,7 +18,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         , onUrlRequest = OnUrlRequest
         , onUrlChange = OnUrlChange
         }
@@ -50,17 +52,26 @@ type Msg
     | ShiftLeftClicked
     | ShiftRightClicked
     | SwapClicked
+    | KeyPressed Key
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Events.keyCode
+        |> Decode.andThen keyDecoder
+        |> Decode.map KeyPressed
+        |> Browser.Events.onKeyDown
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        OnUrlRequest req ->
+        OnUrlRequest _ ->
             ( model
             , Cmd.none
             )
 
-        OnUrlChange url ->
+        OnUrlChange _ ->
             ( model
             , Cmd.none
             )
@@ -80,6 +91,28 @@ update msg model =
             , Cmd.none
             )
 
+        KeyPressed key ->
+            case key of
+                KeyLeft ->
+                    ( { model | gameModel = Game.shiftLeft model.gameModel }
+                    , Cmd.none
+                    )
+
+                KeyUp ->
+                    ( { model | gameModel = Game.swap model.gameModel }
+                    , Cmd.none
+                    )
+
+                KeyRight ->
+                    ( { model | gameModel = Game.shiftRight model.gameModel }
+                    , Cmd.none
+                    )
+
+                KeyDown ->
+                    ( { model | gameModel = Game.swap model.gameModel }
+                    , Cmd.none
+                    )
+
 
 view : Model -> Browser.Document Msg
 view model =
@@ -94,7 +127,7 @@ viewBody model =
         numbers =
             Game.fieldsToList (Game.fields model.gameModel)
     in
-    Html.div []
+    Html.div [ Attributes.class "game" ]
         [ viewNumbers numbers
         , viewControls
         , viewStatus model
@@ -136,6 +169,40 @@ viewNumber number =
     Html.div [ Attributes.class "number" ]
         [ Html.text (numberToString number)
         ]
+
+
+
+-- KEY
+
+
+type Key
+    = KeyLeft
+    | KeyUp
+    | KeyRight
+    | KeyDown
+
+
+keyDecoder : Int -> Decoder Key
+keyDecoder code =
+    case code of
+        37 ->
+            Decode.succeed KeyLeft
+
+        38 ->
+            Decode.succeed KeyUp
+
+        39 ->
+            Decode.succeed KeyRight
+
+        40 ->
+            Decode.succeed KeyDown
+
+        _ ->
+            Decode.fail "Unknown key"
+
+
+
+-- HELPERS
 
 
 numberToString : Game.Number -> String
