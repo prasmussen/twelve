@@ -128,17 +128,17 @@ solvedFields =
 knownFields : Fields Number
 knownFields =
     { first = One
-    , second = Three
-    , third = Ten
-    , forth = Five
-    , fifth = Seven
-    , sixth = Nine
-    , seventh = Eight
-    , eighth = Eleven
-    , ninth = Two
-    , tenth = Nine
-    , eleventh = Twelve
-    , twelfth = Four
+    , second = Two
+    , third = Four
+    , forth = Six
+    , fifth = Three
+    , sixth = Ten
+    , seventh = Five
+    , eighth = Seven
+    , ninth = Nine
+    , tenth = Eight
+    , eleventh = Eleven
+    , twelfth = Twelve
     }
 
 
