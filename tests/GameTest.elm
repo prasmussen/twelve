@@ -32,7 +32,8 @@ suite =
                             Game.solvedFields
                                 |> Game.init
                                 |> Game.shiftRight
-                                |> Game.toList
+                                |> Game.fields
+                                |> Game.fieldsToList
                     in
                     Expect.equal actual expected
             ]
@@ -59,7 +60,8 @@ suite =
                             Game.solvedFields
                                 |> Game.init
                                 |> Game.shiftLeft
-                                |> Game.toList
+                                |> Game.fields
+                                |> Game.fieldsToList
                     in
                     Expect.equal actual expected
             ]
@@ -86,7 +88,8 @@ suite =
                             Game.solvedFields
                                 |> Game.init
                                 |> Game.swap
-                                |> Game.toList
+                                |> Game.fields
+                                |> Game.fieldsToList
                     in
                     Expect.equal actual expected
             ]

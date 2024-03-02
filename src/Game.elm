@@ -2,6 +2,8 @@ module Game exposing
     ( Fields
     , Model
     , Number(..)
+    , fields
+    , fieldsToList
     , init
     , isSolved
     , randomFields
@@ -9,7 +11,6 @@ module Game exposing
     , shiftRight
     , solvedFields
     , swap
-    , toList
     )
 
 import List.Extra
@@ -57,12 +58,12 @@ type alias Fields =
 
 
 mapFields : (List Number -> List Number) -> Fields -> Fields
-mapFields mapper fields =
-    fields
+mapFields mapper fields_ =
+    fields_
         |> fieldsToList
         |> mapper
         |> fieldsFromList
-        |> Maybe.withDefault fields
+        |> Maybe.withDefault fields_
 
 
 solvedFields : Fields
@@ -95,19 +96,19 @@ randomFields seed =
 
 
 fieldsToList : Fields -> List Number
-fieldsToList fields =
-    [ fields.first
-    , fields.second
-    , fields.third
-    , fields.forth
-    , fields.fifth
-    , fields.sixth
-    , fields.seventh
-    , fields.eighth
-    , fields.ninth
-    , fields.tenth
-    , fields.eleventh
-    , fields.twelfth
+fieldsToList fields_ =
+    [ fields_.first
+    , fields_.second
+    , fields_.third
+    , fields_.forth
+    , fields_.fifth
+    , fields_.sixth
+    , fields_.seventh
+    , fields_.eighth
+    , fields_.ninth
+    , fields_.tenth
+    , fields_.eleventh
+    , fields_.twelfth
     ]
 
 
@@ -143,18 +144,18 @@ type Model
 
 
 init : Fields -> Model
-init fields =
-    Model fields
+init fields_ =
+    Model fields_
 
 
 isSolved : Model -> Bool
-isSolved (Model fields) =
-    mapFields (shiftUntilStartsWith One) fields == solvedFields
+isSolved (Model fields_) =
+    mapFields (shiftUntilStartsWith One) fields_ == solvedFields
 
 
-toList : Model -> List Number
-toList (Model fields) =
-    fieldsToList fields
+fields : Model -> Fields
+fields (Model fields_) =
+    fields_
 
 
 
@@ -162,18 +163,18 @@ toList (Model fields) =
 
 
 shiftRight : Model -> Model
-shiftRight (Model fields) =
-    Model (mapFields shiftRightHelper fields)
+shiftRight (Model fields_) =
+    Model (mapFields shiftRightHelper fields_)
 
 
 shiftLeft : Model -> Model
-shiftLeft (Model numbers) =
-    Model (mapFields shiftLeftHelper numbers)
+shiftLeft (Model fields_) =
+    Model (mapFields shiftLeftHelper fields_)
 
 
 swap : Model -> Model
-swap (Model numbers) =
-    Model (mapFields swapHelper numbers)
+swap (Model fields_) =
+    Model (mapFields swapHelper fields_)
 
 
 
@@ -211,23 +212,23 @@ swapHelper list =
 
 
 shiftUntilStartsWith : a -> List a -> List a
-shiftUntilStartsWith target numbers =
-    if List.member target numbers then
-        shiftUntilStartsWithHelper target numbers
+shiftUntilStartsWith target list =
+    if List.member target list then
+        shiftUntilStartsWithHelper target list
 
     else
-        numbers
+        list
 
 
 shiftUntilStartsWithHelper : a -> List a -> List a
-shiftUntilStartsWithHelper target numbers =
-    case numbers of
+shiftUntilStartsWithHelper target list =
+    case list of
         first :: _ ->
             if first == target then
-                numbers
+                list
 
             else
-                shiftUntilStartsWithHelper target (shiftLeftHelper numbers)
+                shiftUntilStartsWithHelper target (shiftLeftHelper list)
 
         _ ->
-            numbers
+            list
