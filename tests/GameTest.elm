@@ -2,14 +2,15 @@ module GameTest exposing (suite)
 
 import Expect
 import Game
+import Random
 import Test exposing (Test)
 
 
 suite : Test
 suite =
     Test.describe "The Game module"
-        [ Test.describe "moveRight"
-            [ Test.test "move 1" <|
+        [ Test.describe "shiftRight"
+            [ Test.test "shift one to the right" <|
                 \_ ->
                     let
                         expected =
@@ -30,13 +31,13 @@ suite =
                         actual =
                             Game.solvedFields
                                 |> Game.init
-                                |> Game.moveRight
+                                |> Game.shiftRight
                                 |> Game.toList
                     in
                     Expect.equal actual expected
             ]
-        , Test.describe "moveLeft"
-            [ Test.test "move 1" <|
+        , Test.describe "shiftLeft"
+            [ Test.test "shift one to the left" <|
                 \_ ->
                     let
                         expected =
@@ -57,7 +58,7 @@ suite =
                         actual =
                             Game.solvedFields
                                 |> Game.init
-                                |> Game.moveLeft
+                                |> Game.shiftLeft
                                 |> Game.toList
                     in
                     Expect.equal actual expected
@@ -102,7 +103,7 @@ suite =
                                 |> Game.isSolved
                     in
                     Expect.equal actual expected
-            , Test.test "left moved should not be solved" <|
+            , Test.test "left shifted should be solved" <|
                 \_ ->
                     let
                         expected =
@@ -111,11 +112,11 @@ suite =
                         actual =
                             Game.solvedFields
                                 |> Game.init
-                                |> Game.moveLeft
+                                |> Game.shiftLeft
                                 |> Game.isSolved
                     in
                     Expect.equal actual expected
-            , Test.test "should not be solved" <|
+            , Test.test "swapped should not be solved" <|
                 \_ ->
                     let
                         expected =
@@ -123,6 +124,19 @@ suite =
 
                         actual =
                             Game.solvedFields
+                                |> Game.init
+                                |> Game.swap
+                                |> Game.isSolved
+                    in
+                    Expect.equal actual expected
+            , Test.test "random fields should not be solved" <|
+                \_ ->
+                    let
+                        expected =
+                            False
+
+                        actual =
+                            Game.randomFields (Random.initialSeed 42)
                                 |> Game.init
                                 |> Game.swap
                                 |> Game.isSolved

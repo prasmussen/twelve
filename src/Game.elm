@@ -4,14 +4,17 @@ module Game exposing
     , Number(..)
     , init
     , isSolved
-    , moveLeft
-    , moveRight
+    , randomFields
+    , shiftLeft
+    , shiftRight
     , solvedFields
     , swap
     , toList
     )
 
 import List.Extra
+import Random
+import Random.List
 
 
 
@@ -79,6 +82,18 @@ solvedFields =
     }
 
 
+randomFields : Random.Seed -> Fields
+randomFields seed =
+    let
+        generator =
+            Random.List.shuffle (fieldsToList solvedFields)
+    in
+    Random.step generator seed
+        |> Tuple.first
+        |> fieldsFromList
+        |> Maybe.withDefault solvedFields
+
+
 fieldsToList : Fields -> List Number
 fieldsToList fields =
     [ fields.first
@@ -134,11 +149,7 @@ init fields =
 
 isSolved : Model -> Bool
 isSolved (Model fields) =
-    let
-        movedFields =
-            mapFields (moveUntilStartsWith One) fields
-    in
-    movedFields == solvedFields
+    mapFields (shiftUntilStartsWith One) fields == solvedFields
 
 
 toList : Model -> List Number
@@ -150,14 +161,14 @@ toList (Model fields) =
 -- OPERATIONS
 
 
-moveRight : Model -> Model
-moveRight (Model fields) =
-    Model (mapFields moveRightHelper fields)
+shiftRight : Model -> Model
+shiftRight (Model fields) =
+    Model (mapFields shiftRightHelper fields)
 
 
-moveLeft : Model -> Model
-moveLeft (Model numbers) =
-    Model (mapFields moveLeftHelper numbers)
+shiftLeft : Model -> Model
+shiftLeft (Model numbers) =
+    Model (mapFields shiftLeftHelper numbers)
 
 
 swap : Model -> Model
@@ -169,8 +180,8 @@ swap (Model numbers) =
 -- LIST HELPERS
 
 
-moveRightHelper : List a -> List a
-moveRightHelper list =
+shiftRightHelper : List a -> List a
+shiftRightHelper list =
     case List.Extra.unconsLast list of
         Just ( last, rest ) ->
             last :: rest
@@ -179,8 +190,8 @@ moveRightHelper list =
             list
 
 
-moveLeftHelper : List a -> List a
-moveLeftHelper list =
+shiftLeftHelper : List a -> List a
+shiftLeftHelper list =
     case List.Extra.uncons list of
         Just ( first, rest ) ->
             rest ++ [ first ]
@@ -199,24 +210,24 @@ swapHelper list =
             list
 
 
-moveUntilStartsWith : a -> List a -> List a
-moveUntilStartsWith target numbers =
+shiftUntilStartsWith : a -> List a -> List a
+shiftUntilStartsWith target numbers =
     if List.member target numbers then
-        moveUntilStartsWithHelper target numbers
+        shiftUntilStartsWithHelper target numbers
 
     else
         numbers
 
 
-moveUntilStartsWithHelper : a -> List a -> List a
-moveUntilStartsWithHelper target numbers =
+shiftUntilStartsWithHelper : a -> List a -> List a
+shiftUntilStartsWithHelper target numbers =
     case numbers of
         first :: _ ->
             if first == target then
                 numbers
 
             else
-                moveUntilStartsWith target (moveLeftHelper numbers)
+                shiftUntilStartsWithHelper target (shiftLeftHelper numbers)
 
         _ ->
             numbers
