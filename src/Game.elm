@@ -53,6 +53,15 @@ type alias Fields =
     }
 
 
+mapFields : (List Number -> List Number) -> Fields -> Fields
+mapFields mapper fields =
+    fields
+        |> fieldsToList
+        |> mapper
+        |> fieldsFromList
+        |> Maybe.withDefault fields
+
+
 solvedFields : Fields
 solvedFields =
     { first = One
@@ -115,22 +124,26 @@ fieldsFromList numbers =
 
 
 type Model
-    = Model (List Number)
+    = Model Fields
 
 
 init : Fields -> Model
 init fields =
-    Model (fieldsToList fields)
+    Model fields
 
 
 isSolved : Model -> Bool
-isSolved (Model numbers) =
-    moveUntilStartsWith One numbers == [ One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Eleven, Twelve ]
+isSolved (Model fields) =
+    let
+        movedFields =
+            mapFields (moveUntilStartsWith One) fields
+    in
+    movedFields == solvedFields
 
 
 toList : Model -> List Number
-toList (Model numbers) =
-    numbers
+toList (Model fields) =
+    fieldsToList fields
 
 
 
@@ -138,18 +151,18 @@ toList (Model numbers) =
 
 
 moveRight : Model -> Model
-moveRight (Model numbers) =
-    Model (moveRightHelper numbers)
+moveRight (Model fields) =
+    Model (mapFields moveRightHelper fields)
 
 
 moveLeft : Model -> Model
 moveLeft (Model numbers) =
-    Model (moveLeftHelper numbers)
+    Model (mapFields moveLeftHelper numbers)
 
 
 swap : Model -> Model
 swap (Model numbers) =
-    Model (swapHelper numbers)
+    Model (mapFields swapHelper numbers)
 
 
 
