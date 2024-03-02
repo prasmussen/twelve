@@ -1,0 +1,28 @@
+.numbers {
+    display: flex;
+    gap: 1rem;
+}
+
+.number {
+    border: 2px #aeadad solid;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.status {
+    margin-top: 1rem;
+    font-size: 20px;
+    font-weight: bold;
+}

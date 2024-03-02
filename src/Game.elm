@@ -6,6 +6,8 @@ module Game exposing
     , fieldsToList
     , init
     , isSolved
+    , knownFields
+    , numberToInt
     , randomFields
     , shiftLeft
     , shiftRight
@@ -35,6 +37,46 @@ type Number
     | Ten
     | Eleven
     | Twelve
+
+
+numberToInt : Number -> Int
+numberToInt number =
+    case number of
+        One ->
+            1
+
+        Two ->
+            2
+
+        Three ->
+            3
+
+        Four ->
+            4
+
+        Five ->
+            5
+
+        Six ->
+            6
+
+        Seven ->
+            7
+
+        Eight ->
+            8
+
+        Nine ->
+            9
+
+        Ten ->
+            10
+
+        Eleven ->
+            11
+
+        Twelve ->
+            12
 
 
 
@@ -80,6 +122,23 @@ solvedFields =
     , tenth = Ten
     , eleventh = Eleven
     , twelfth = Twelve
+    }
+
+
+knownFields : Fields Number
+knownFields =
+    { first = One
+    , second = Three
+    , third = Ten
+    , forth = Five
+    , fifth = Seven
+    , sixth = Nine
+    , seventh = Eight
+    , eighth = Eleven
+    , ninth = Two
+    , tenth = Nine
+    , eleventh = Twelve
+    , twelfth = Four
     }
 
 
