@@ -41,23 +41,23 @@ type Number
 -- FIELDS
 
 
-type alias Fields =
-    { first : Number
-    , second : Number
-    , third : Number
-    , forth : Number
-    , fifth : Number
-    , sixth : Number
-    , seventh : Number
-    , eighth : Number
-    , ninth : Number
-    , tenth : Number
-    , eleventh : Number
-    , twelfth : Number
+type alias Fields a =
+    { first : a
+    , second : a
+    , third : a
+    , forth : a
+    , fifth : a
+    , sixth : a
+    , seventh : a
+    , eighth : a
+    , ninth : a
+    , tenth : a
+    , eleventh : a
+    , twelfth : a
     }
 
 
-mapFields : (List Number -> List Number) -> Fields -> Fields
+mapFields : (List a -> List a) -> Fields a -> Fields a
 mapFields mapper fields_ =
     fields_
         |> fieldsToList
@@ -66,7 +66,7 @@ mapFields mapper fields_ =
         |> Maybe.withDefault fields_
 
 
-solvedFields : Fields
+solvedFields : Fields Number
 solvedFields =
     { first = One
     , second = Two
@@ -83,7 +83,7 @@ solvedFields =
     }
 
 
-randomFields : Random.Seed -> Fields
+randomFields : Random.Seed -> Fields Number
 randomFields seed =
     let
         generator =
@@ -95,7 +95,7 @@ randomFields seed =
         |> Maybe.withDefault solvedFields
 
 
-fieldsToList : Fields -> List Number
+fieldsToList : Fields a -> List a
 fieldsToList fields_ =
     [ fields_.first
     , fields_.second
@@ -112,9 +112,9 @@ fieldsToList fields_ =
     ]
 
 
-fieldsFromList : List Number -> Maybe Fields
-fieldsFromList numbers =
-    case numbers of
+fieldsFromList : List a -> Maybe (Fields a)
+fieldsFromList list =
+    case list of
         [ first, second, third, forth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth ] ->
             Just
                 { first = first
@@ -140,10 +140,10 @@ fieldsFromList numbers =
 
 
 type Model
-    = Model Fields
+    = Model (Fields Number)
 
 
-init : Fields -> Model
+init : Fields Number -> Model
 init fields_ =
     Model fields_
 
@@ -153,7 +153,7 @@ isSolved (Model fields_) =
     mapFields (shiftUntilStartsWith One) fields_ == solvedFields
 
 
-fields : Model -> Fields
+fields : Model -> Fields Number
 fields (Model fields_) =
     fields_
 
