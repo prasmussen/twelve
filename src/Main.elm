@@ -161,12 +161,15 @@ viewStatus model =
 viewNumbers : List Game.Number -> Html Msg
 viewNumbers numbers =
     Html.div [ Attributes.class "numbers" ]
-        (List.map viewNumber numbers)
+        (List.indexedMap viewNumber numbers)
 
 
-viewNumber : Game.Number -> Html Msg
-viewNumber number =
-    Html.div [ Attributes.class "number" ]
+viewNumber : Int -> Game.Number -> Html Msg
+viewNumber index number =
+    Html.div
+        [ Attributes.class "number"
+        , Attributes.class ("field-" ++ String.fromInt (index + 1))
+        ]
         [ Html.text (numberToString number)
         ]
 

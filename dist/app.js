@@ -5934,19 +5934,22 @@ var $author$project$Main$numberToString = function (number) {
 	return $elm$core$String$fromInt(
 		$author$project$Game$numberToInt(number));
 };
-var $author$project$Main$viewNumber = function (number) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('number')
-			]),
-		_List_fromArray(
-			[
-				$elm$html$Html$text(
-				$author$project$Main$numberToString(number))
-			]));
-};
+var $author$project$Main$viewNumber = F2(
+	function (index, number) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('number'),
+					$elm$html$Html$Attributes$class(
+					'field-' + $elm$core$String$fromInt(index + 1))
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(
+					$author$project$Main$numberToString(number))
+				]));
+	});
 var $author$project$Main$viewNumbers = function (numbers) {
 	return A2(
 		$elm$html$Html$div,
@@ -5954,7 +5957,7 @@ var $author$project$Main$viewNumbers = function (numbers) {
 			[
 				$elm$html$Html$Attributes$class('numbers')
 			]),
-		A2($elm$core$List$map, $author$project$Main$viewNumber, numbers));
+		A2($elm$core$List$indexedMap, $author$project$Main$viewNumber, numbers));
 };
 var $elm$core$List$any = F2(
 	function (isOkay, list) {

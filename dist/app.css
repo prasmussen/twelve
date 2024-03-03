@@ -1,3 +1,9 @@
+*,
+after,
+before {
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
     overflow: hidden;
@@ -9,6 +15,7 @@ body {
 
 .game {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,8 +23,11 @@ body {
 }
 
 .numbers {
+    width: 100%;
     display: flex;
     gap: 1rem;
+    position: relative;
+    height: 200px;
 }
 
 .number {
@@ -30,6 +40,66 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
+.field-1 {
+    right: 12rem;
+}
+
+.field-2 {
+    right: 4rem;
+}
+
+.field-3 {
+    left: 4rem;
+}
+
+.field-4 {
+    left: 12rem;
+}
+
+.field-5 {
+    top: 2rem;
+    left: 20rem;
+}
+
+.field-6 {
+    top: 6rem;
+    left: 20rem;
+}
+
+.field-7 {
+    top: 8rem;
+    left: 12rem;
+}
+
+.field-8 {
+    top: 8rem;
+    left: 4rem;
+}
+
+.field-9 {
+    top: 8rem;
+    right: 4rem;
+}
+
+.field-10 {
+    top: 8rem;
+    right: 12rem;
+}
+
+.field-11 {
+    top: 6rem;
+    right: 20rem;
+}
+
+.field-12 {
+    top: 2rem;
+    right: 20rem;
 }
 
 .controls {
@@ -41,7 +111,8 @@ body {
 .controls button {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    width: 120px;
+    height: 40px;
+    width: 112px;
     font-size: 16px;
     font-weight: bold;
     touch-action: manipulation;
